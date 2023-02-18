@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPersonalperformanceMapper">
+
+    <resultMap type="SysPersonalperformance" id="SysPersonalperformanceResult">
+        <result property="personalId"    column="Personal_id"    />
+        <result property="personnel"    column="Personnel"    />
+        <result property="position"    column="position"    />
+        <result property="performance"    column="performance"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysPersonalperformanceVo">
+        select Personal_id, Personnel, position, performance, create_by, create_time, update_by, update_time, remark from sys_personalperformance
+    </sql>
+
+    <select id="selectSysPersonalperformanceList" parameterType="SysPersonalperformance" resultMap="SysPersonalperformanceResult">
+        <include refid="selectSysPersonalperformanceVo"/>
+        <where>
+            <if test="personnel != null  and personnel != ''"> and Personnel = #{personnel}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="performance != null "> and performance = #{performance}</if>
+        </where>
+    </select>
+
+    <select id="selectSysPersonalperformanceByPersonalId" parameterType="Long" resultMap="SysPersonalperformanceResult">
+        <include refid="selectSysPersonalperformanceVo"/>
+        where Personal_id = #{personalId}
+    </select>
+
+    <insert id="insertSysPersonalperformance" parameterType="SysPersonalperformance" useGeneratedKeys="true" keyProperty="personalId">
+        insert into sys_personalperformance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="personnel != null and personnel != ''">Personnel,</if>
+            <if test="position != null and position != ''">position,</if>
+            <if test="performance != null">performance,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="personnel != null and personnel != ''">#{personnel},</if>
+            <if test="position != null and position != ''">#{position},</if>
+            <if test="performance != null">#{performance},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysPersonalperformance" parameterType="SysPersonalperformance">
+        update sys_personalperformance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personnel != null and personnel != ''">Personnel = #{personnel},</if>
+            <if test="position != null and position != ''">position = #{position},</if>
+            <if test="performance != null">performance = #{performance},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where Personal_id = #{personalId}
+    </update>
+
+    <delete id="deleteSysPersonalperformanceByPersonalId" parameterType="Long">
+        delete from sys_personalperformance where Personal_id = #{personalId}
+    </delete>
+
+    <delete id="deleteSysPersonalperformanceByPersonalIds" parameterType="String">
+        delete from sys_personalperformance where Personal_id in
+        <foreach item="personalId" collection="array" open="(" separator="," close=")">
+            #{personalId}
+        </foreach>
+    </delete>
+</mapper>

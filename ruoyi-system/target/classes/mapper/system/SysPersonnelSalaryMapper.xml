@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysPersonnelSalaryMapper">
+
+    <resultMap type="SysPersonnelSalary" id="SysPersonnelSalaryResult">
+        <result property="personId"    column="person_id"    />
+        <result property="personnel"    column="Personnel"    />
+        <result property="position"    column="position"    />
+        <result property="salary"    column="salary"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysPersonnelSalaryVo">
+        select person_id, Personnel, position, salary, create_by, create_time, update_by, update_time, remark from sys_personnel_salary
+    </sql>
+
+    <select id="selectSysPersonnelSalaryList" parameterType="SysPersonnelSalary" resultMap="SysPersonnelSalaryResult">
+        <include refid="selectSysPersonnelSalaryVo"/>
+        <where>
+            <if test="personnel != null  and personnel != ''"> and Personnel = #{personnel}</if>
+            <if test="position != null  and position != ''"> and position = #{position}</if>
+            <if test="salary != null "> and salary = #{salary}</if>
+        </where>
+    </select>
+
+    <select id="selectSysPersonnelSalaryByPersonId" parameterType="Long" resultMap="SysPersonnelSalaryResult">
+        <include refid="selectSysPersonnelSalaryVo"/>
+        where person_id = #{personId}
+    </select>
+
+    <insert id="insertSysPersonnelSalary" parameterType="SysPersonnelSalary" useGeneratedKeys="true" keyProperty="personId">
+        insert into sys_personnel_salary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="personnel != null and personnel != ''">Personnel,</if>
+            <if test="position != null and position != ''">position,</if>
+            <if test="salary != null">salary,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="personnel != null and personnel != ''">#{personnel},</if>
+            <if test="position != null and position != ''">#{position},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysPersonnelSalary" parameterType="SysPersonnelSalary">
+        update sys_personnel_salary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personnel != null and personnel != ''">Personnel = #{personnel},</if>
+            <if test="position != null and position != ''">position = #{position},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where person_id = #{personId}
+    </update>
+
+    <delete id="deleteSysPersonnelSalaryByPersonId" parameterType="Long">
+        delete from sys_personnel_salary where person_id = #{personId}
+    </delete>
+
+    <delete id="deleteSysPersonnelSalaryByPersonIds" parameterType="String">
+        delete from sys_personnel_salary where person_id in
+        <foreach item="personId" collection="array" open="(" separator="," close=")">
+            #{personId}
+        </foreach>
+    </delete>
+</mapper>
