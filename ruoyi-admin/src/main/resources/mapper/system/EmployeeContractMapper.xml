@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EmployeeContractMapper">
+
+    <resultMap type="EmployeeContract" id="EmployeeContractResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="email"    column="email"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="contractTerm"    column="contract_term"    />
+        <result property="rewardsAndPunishments"    column="rewards_and_punishments"    />
+    </resultMap>
+
+    <sql id="selectEmployeeContractVo">
+        select id, name, email, phone_number, start_date, end_date, contract_term, rewards_and_punishments from employee_contract
+    </sql>
+
+    <select id="selectEmployeeContractList" parameterType="EmployeeContract" resultMap="EmployeeContractResult">
+        <include refid="selectEmployeeContractVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="contractTerm != null "> and contract_term = #{contractTerm}</if>
+            <if test="rewardsAndPunishments != null  and rewardsAndPunishments != ''"> and rewards_and_punishments = #{rewardsAndPunishments}</if>
+        </where>
+    </select>
+
+    <select id="selectEmployeeContractById" parameterType="Long" resultMap="EmployeeContractResult">
+        <include refid="selectEmployeeContractVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEmployeeContract" parameterType="EmployeeContract">
+        insert into employee_contract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="email != null">email,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="contractTerm != null">contract_term,</if>
+            <if test="rewardsAndPunishments != null">rewards_and_punishments,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="contractTerm != null">#{contractTerm},</if>
+            <if test="rewardsAndPunishments != null">#{rewardsAndPunishments},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployeeContract" parameterType="EmployeeContract">
+        update employee_contract
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="contractTerm != null">contract_term = #{contractTerm},</if>
+            <if test="rewardsAndPunishments != null">rewards_and_punishments = #{rewardsAndPunishments},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEmployeeContractById" parameterType="Long">
+        delete from employee_contract where id = #{id}
+    </delete>
+
+    <delete id="deleteEmployeeContractByIds" parameterType="String">
+        delete from employee_contract where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '若依管理系统',
+      title: '人力资源管理系统',
       logo: logoImg
     }
   }

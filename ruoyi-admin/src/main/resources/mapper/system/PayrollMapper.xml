@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PayrollMapper">
+    
+    <resultMap type="Payroll" id="PayrollResult">
+        <result property="id"    column="id"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="salary"    column="salary"    />
+        <result property="bonus"    column="bonus"    />
+        <result property="deduction"    column="deduction"    />
+        <result property="insurance"    column="insurance"    />
+        <result property="tax"    column="tax"    />
+        <result property="payment"    column="payment"    />
+        <result property="paymentDate"    column="payment_date"    />
+    </resultMap>
+
+    <sql id="selectPayrollVo">
+        select id, employee_id, salary, bonus, deduction, insurance, tax, payment, payment_date from payroll
+    </sql>
+
+    <select id="selectPayrollList" parameterType="Payroll" resultMap="PayrollResult">
+        <include refid="selectPayrollVo"/>
+        <where>  
+            <if test="employeeId != null  and employeeId != ''"> and employee_id = #{employeeId}</if>
+            <if test="salary != null "> and salary = #{salary}</if>
+            <if test="bonus != null "> and bonus = #{bonus}</if>
+            <if test="deduction != null "> and deduction = #{deduction}</if>
+            <if test="insurance != null "> and insurance = #{insurance}</if>
+            <if test="tax != null "> and tax = #{tax}</if>
+            <if test="payment != null "> and payment = #{payment}</if>
+            <if test="paymentDate != null "> and payment_date = #{paymentDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectPayrollById" parameterType="Long" resultMap="PayrollResult">
+        <include refid="selectPayrollVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPayroll" parameterType="Payroll" useGeneratedKeys="true" keyProperty="id">
+        insert into payroll
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeId != null and employeeId != ''">employee_id,</if>
+            <if test="salary != null">salary,</if>
+            <if test="bonus != null">bonus,</if>
+            <if test="deduction != null">deduction,</if>
+            <if test="insurance != null">insurance,</if>
+            <if test="tax != null">tax,</if>
+            <if test="payment != null">payment,</if>
+            <if test="paymentDate != null">payment_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeId != null and employeeId != ''">#{employeeId},</if>
+            <if test="salary != null">#{salary},</if>
+            <if test="bonus != null">#{bonus},</if>
+            <if test="deduction != null">#{deduction},</if>
+            <if test="insurance != null">#{insurance},</if>
+            <if test="tax != null">#{tax},</if>
+            <if test="payment != null">#{payment},</if>
+            <if test="paymentDate != null">#{paymentDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePayroll" parameterType="Payroll">
+        update payroll
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeeId != null and employeeId != ''">employee_id = #{employeeId},</if>
+            <if test="salary != null">salary = #{salary},</if>
+            <if test="bonus != null">bonus = #{bonus},</if>
+            <if test="deduction != null">deduction = #{deduction},</if>
+            <if test="insurance != null">insurance = #{insurance},</if>
+            <if test="tax != null">tax = #{tax},</if>
+            <if test="payment != null">payment = #{payment},</if>
+            <if test="paymentDate != null">payment_date = #{paymentDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePayrollById" parameterType="Long">
+        delete from payroll where id = #{id}
+    </delete>
+
+    <delete id="deletePayrollByIds" parameterType="String">
+        delete from payroll where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

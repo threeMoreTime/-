@@ -23,7 +23,7 @@ export function register(data) {
   return request({
     url: '/register',
     headers: {
-      isToken: false
+      isToken: true,
     },
     method: 'post',
     data: data

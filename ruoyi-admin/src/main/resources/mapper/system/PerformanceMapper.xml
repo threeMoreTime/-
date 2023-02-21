@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PerformanceMapper">
+    
+    <resultMap type="Performance" id="PerformanceResult">
+        <result property="id"    column="id"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="date"    column="date"    />
+        <result property="sales"    column="sales"    />
+        <result property="expenses"    column="expenses"    />
+        <result property="revenue"    column="revenue"    />
+        <result property="profit"    column="profit"    />
+        <result property="productId"    column="product_id"    />
+        <result property="region"    column="region"    />
+        <result property="channel"    column="channel"    />
+        <result property="salesQuantity"    column="sales_quantity"    />
+        <result property="expensesDetail"    column="expenses_detail"    />
+        <result property="taxes"    column="taxes"    />
+    </resultMap>
+
+    <sql id="selectPerformanceVo">
+        select id, employee_id, date, sales, expenses, revenue, profit, product_id, region, channel, sales_quantity, expenses_detail, taxes from performance
+    </sql>
+
+    <select id="selectPerformanceList" parameterType="Performance" resultMap="PerformanceResult">
+        <include refid="selectPerformanceVo"/>
+        <where>  
+            <if test="employeeId != null  and employeeId != ''"> and employee_id = #{employeeId}</if>
+            <if test="date != null "> and date = #{date}</if>
+            <if test="sales != null "> and sales = #{sales}</if>
+            <if test="expenses != null "> and expenses = #{expenses}</if>
+            <if test="revenue != null "> and revenue = #{revenue}</if>
+            <if test="profit != null "> and profit = #{profit}</if>
+            <if test="productId != null  and productId != ''"> and product_id = #{productId}</if>
+            <if test="region != null  and region != ''"> and region = #{region}</if>
+            <if test="channel != null  and channel != ''"> and channel = #{channel}</if>
+            <if test="salesQuantity != null "> and sales_quantity = #{salesQuantity}</if>
+            <if test="expensesDetail != null  and expensesDetail != ''"> and expenses_detail = #{expensesDetail}</if>
+            <if test="taxes != null "> and taxes = #{taxes}</if>
+        </where>
+    </select>
+    
+    <select id="selectPerformanceById" parameterType="Long" resultMap="PerformanceResult">
+        <include refid="selectPerformanceVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPerformance" parameterType="Performance" useGeneratedKeys="true" keyProperty="id">
+        insert into performance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeId != null">employee_id,</if>
+            <if test="date != null">date,</if>
+            <if test="sales != null">sales,</if>
+            <if test="expenses != null">expenses,</if>
+            <if test="revenue != null">revenue,</if>
+            <if test="profit != null">profit,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="region != null">region,</if>
+            <if test="channel != null">channel,</if>
+            <if test="salesQuantity != null">sales_quantity,</if>
+            <if test="expensesDetail != null">expenses_detail,</if>
+            <if test="taxes != null">taxes,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeId != null">#{employeeId},</if>
+            <if test="date != null">#{date},</if>
+            <if test="sales != null">#{sales},</if>
+            <if test="expenses != null">#{expenses},</if>
+            <if test="revenue != null">#{revenue},</if>
+            <if test="profit != null">#{profit},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="region != null">#{region},</if>
+            <if test="channel != null">#{channel},</if>
+            <if test="salesQuantity != null">#{salesQuantity},</if>
+            <if test="expensesDetail != null">#{expensesDetail},</if>
+            <if test="taxes != null">#{taxes},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePerformance" parameterType="Performance">
+        update performance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeeId != null">employee_id = #{employeeId},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="sales != null">sales = #{sales},</if>
+            <if test="expenses != null">expenses = #{expenses},</if>
+            <if test="revenue != null">revenue = #{revenue},</if>
+            <if test="profit != null">profit = #{profit},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="region != null">region = #{region},</if>
+            <if test="channel != null">channel = #{channel},</if>
+            <if test="salesQuantity != null">sales_quantity = #{salesQuantity},</if>
+            <if test="expensesDetail != null">expenses_detail = #{expensesDetail},</if>
+            <if test="taxes != null">taxes = #{taxes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePerformanceById" parameterType="Long">
+        delete from performance where id = #{id}
+    </delete>
+
+    <delete id="deletePerformanceByIds" parameterType="String">
+        delete from performance where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
