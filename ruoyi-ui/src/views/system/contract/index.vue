@@ -9,10 +9,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="电子邮箱" prop="email">
+      <el-form-item label="奖惩类型" prop="email">
         <el-input
           v-model="queryParams.email"
-          placeholder="请输入电子邮箱"
+          placeholder="请输入奖惩类型"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -153,8 +153,8 @@
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" placeholder="请输入姓名" />
         </el-form-item>
-        <el-form-item label="电子邮箱" prop="email">
-          <el-input v-model="form.email" placeholder="请输入电子邮箱" />
+        <el-form-item label="奖惩类型" prop="email">
+          <el-input v-model="form.email" placeholder="请输入奖惩类型" />
         </el-form-item>
         <el-form-item label="电话号码" prop="phoneNumber">
           <el-input v-model="form.phoneNumber" placeholder="请输入电话号码" />

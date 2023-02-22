@@ -61,15 +61,19 @@ export const constantRoutes = [
     component: () => import('@/views/error/401'),
     hidden: true
   },
+  // {
+  //   path: '',
+  //   redirect: 'system/user/index',
+  // },
   {
     path: '',
     component: Layout,
-    redirect: 'index',
+    redirect: 'system/user/index',
     children: [
       {
-        path: 'index',
-        component: () => import('@/views/index'),
-        name: 'Index',
+        path: 'system/user/index',
+        component: () => import('@/views/system/user/index'),
+        name: 'system/user/index',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
