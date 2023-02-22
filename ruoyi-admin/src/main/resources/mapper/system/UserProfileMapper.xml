@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserProfileMapper">
+    
+    <resultMap type="UserProfile" id="UserProfileResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="gender"    column="gender"    />
+        <result property="age"    column="age"    />
+        <result property="dateOfBirth"    column="date_of_birth"    />
+        <result property="country"    column="country"    />
+        <result property="nativeplace"    column="nativeplace"    />
+        <result property="nation"    column="nation"    />
+        <result property="politicsstatus"    column="politicsstatus"    />
+        <result property="city"    column="city"    />
+        <result property="address"    column="address"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="email"    column="email"    />
+        <result property="employment"    column="employment"    />
+        <result property="Entrytime"    column="Entrytime"    />
+        <result property="dimissiontime"    column="dimissiontime"    />
+        <result property="highestEducation"    column="highest_education"    />
+        <result property="university"    column="university"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updatedAt"    column="updated_at"    />
+    </resultMap>
+
+    <sql id="selectUserProfileVo">
+        select id, name, gender, age, date_of_birth, country, nativeplace, nation, politicsstatus, city, address, phone_number, email, employment, Entrytime, dimissiontime, highest_education, university, created_at, updated_at from user_profile
+    </sql>
+
+    <select id="selectUserProfileList" parameterType="UserProfile" resultMap="UserProfileResult">
+        <include refid="selectUserProfileVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="gender != null  and gender != ''"> and gender = #{gender}</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="dateOfBirth != null "> and date_of_birth = #{dateOfBirth}</if>
+            <if test="country != null  and country != ''"> and country = #{country}</if>
+            <if test="nativeplace != null  and nativeplace != ''"> and nativeplace = #{nativeplace}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="politicsstatus != null  and politicsstatus != ''"> and politicsstatus = #{politicsstatus}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="employment != null  and employment != ''"> and employment = #{employment}</if>
+            <if test="Entrytime != null "> and Entrytime = #{Entrytime}</if>
+            <if test="dimissiontime != null "> and dimissiontime = #{dimissiontime}</if>
+            <if test="highestEducation != null  and highestEducation != ''"> and highest_education = #{highestEducation}</if>
+            <if test="university != null  and university != ''"> and university = #{university}</if>
+            <if test="createdAt != null "> and created_at = #{createdAt}</if>
+            <if test="updatedAt != null "> and updated_at = #{updatedAt}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserProfileById" parameterType="Long" resultMap="UserProfileResult">
+        <include refid="selectUserProfileVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertUserProfile" parameterType="UserProfile" useGeneratedKeys="true" keyProperty="id">
+        insert into user_profile
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="gender != null and gender != ''">gender,</if>
+            <if test="age != null">age,</if>
+            <if test="dateOfBirth != null">date_of_birth,</if>
+            <if test="country != null">country,</if>
+            <if test="nativeplace != null">nativeplace,</if>
+            <if test="nation != null">nation,</if>
+            <if test="politicsstatus != null">politicsstatus,</if>
+            <if test="city != null">city,</if>
+            <if test="address != null">address,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="email != null">email,</if>
+            <if test="employment != null">employment,</if>
+            <if test="Entrytime != null">Entrytime,</if>
+            <if test="dimissiontime != null">dimissiontime,</if>
+            <if test="highestEducation != null">highest_education,</if>
+            <if test="university != null">university,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="gender != null and gender != ''">#{gender},</if>
+            <if test="age != null">#{age},</if>
+            <if test="dateOfBirth != null">#{dateOfBirth},</if>
+            <if test="country != null">#{country},</if>
+            <if test="nativeplace != null">#{nativeplace},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="politicsstatus != null">#{politicsstatus},</if>
+            <if test="city != null">#{city},</if>
+            <if test="address != null">#{address},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="email != null">#{email},</if>
+            <if test="employment != null">#{employment},</if>
+            <if test="Entrytime != null">#{Entrytime},</if>
+            <if test="dimissiontime != null">#{dimissiontime},</if>
+            <if test="highestEducation != null">#{highestEducation},</if>
+            <if test="university != null">#{university},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updatedAt != null">#{updatedAt},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserProfile" parameterType="UserProfile">
+        update user_profile
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="gender != null and gender != ''">gender = #{gender},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="dateOfBirth != null">date_of_birth = #{dateOfBirth},</if>
+            <if test="country != null">country = #{country},</if>
+            <if test="nativeplace != null">nativeplace = #{nativeplace},</if>
+            <if test="nation != null">nation = #{nation},</if>
+            <if test="politicsstatus != null">politicsstatus = #{politicsstatus},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="employment != null">employment = #{employment},</if>
+            <if test="Entrytime != null">Entrytime = #{Entrytime},</if>
+            <if test="dimissiontime != null">dimissiontime = #{dimissiontime},</if>
+            <if test="highestEducation != null">highest_education = #{highestEducation},</if>
+            <if test="university != null">university = #{university},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updatedAt != null">updated_at = #{updatedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserProfileById" parameterType="Long">
+        delete from user_profile where id = #{id}
+    </delete>
+
+    <delete id="deleteUserProfileByIds" parameterType="String">
+        delete from user_profile where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
